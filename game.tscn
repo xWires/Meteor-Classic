@@ -28,7 +28,7 @@ shader = ExtResource("1_sykpf")
 shader_parameter/Shift_Hue = null
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_avxh7"]
-size = Vector2(6.00001, 12)
+size = Vector2(21.9999, 32.0001)
 
 [node name="Game" type="Node2D"]
 material = SubResource("ShaderMaterial_ucia6")
@@ -54,11 +54,12 @@ rotation = 1.5708
 texture = ExtResource("1_yp4oc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-3.05176e-05, 0)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_avxh7")
 
 [node name="Weapon" type="Marker2D" parent="Player"]
-position = Vector2(6, 0)
+position = Vector2(17, 0)
 
 [node name="ShootSoundEffect" type="AudioStreamPlayer" parent="Player/Weapon"]
 stream = ExtResource("6_8pmbe")
