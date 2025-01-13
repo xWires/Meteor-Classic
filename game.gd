@@ -20,8 +20,6 @@ var gFlags:Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Globals.onMobile = OS.has_feature("web_android") or OS.has_feature("web_ios") or OS.has_feature("android") or OS.has_feature("ios")
-	
 	screen_size = get_viewport_rect().size
 	_on_size_changed()
 	
@@ -59,27 +57,14 @@ func _ready():
 	print("Running on " + OS.get_name())
 
 	if OS.get_name() == "Web":
-		if Globals.onMobile:
-			$TouchPauseMenuContainer/PauseMenu/Quit.hide()
-			$TouchGameOverMenuContainer/GameOverMenu/Quit.hide()
-		else:
-			$PauseMenuContainer/PauseMenu/Quit.hide()
-			$GameOverMenuContainer/GameOverMenu/Quit.hide()
-	
-	if Globals.onMobile:
-		$TouchPauseMenuContainer/PauseMenu/HueSlider.hide()
-		$TouchPauseMenuContainer/PauseMenu/HueSliderLabel.hide()
-		$TouchPauseMenuContainer/PauseMenu/VolumeSlider.hide()
-		$TouchPauseMenuContainer/PauseMenu/VolumeSliderLabel.hide()
+		$PauseMenuContainer/PauseMenu/Quit.hide()
+		$GameOverMenuContainer/GameOverMenu/Quit.hide()
 
 	$Player.acceleration = pAccel
 	$Player.deceleration = pDecel
 	$Player.maximumSpeed = pMaxSpeed
 	$Player.rotationSpeed = pRotSpeed
 	$Player/WeaponCooldown.wait_time = pFireCooldown
-	
-	Globals.pauseMenu = $TouchPauseMenuContainer/PauseMenu if Globals.onMobile else $PauseMenuContainer/PauseMenu
-	Globals.gameOverMenu = $TouchGameOverMenuContainer/GameOverMenu if Globals.onMobile else $GameOverMenuContainer/GameOverMenu
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -126,12 +111,8 @@ func _notification(what):
 
 func onExit():
 	saveHighScore($UserInterface/ScoreLabel.score)
-	if Globals.onMobile:
-		setVolumeOption($TouchPauseMenuContainer/PauseMenu/VolumeSlider.value)
-		setHueOption($TouchPauseMenuContainer/PauseMenu/HueSlider.value)
-	else:
-		setVolumeOption($PauseMenuContainer/PauseMenu/VolumeSlider.value)
-		setHueOption($PauseMenuContainer/PauseMenu/HueSlider.value)
+	setVolumeOption($PauseMenuContainer/PauseMenu/VolumeSlider.value)
+	setHueOption($PauseMenuContainer/PauseMenu/HueSlider.value)
 	saveConfig()
 
 func getHighScore():
@@ -153,23 +134,13 @@ func flagExists(flag:String):
 func pauseGame():
 	if gameInProgress:
 		get_tree().paused = true
-		if Globals.onMobile:
-			$TouchControls.hide()
-			$TouchPauseMenuContainer.show()
-			$TouchPauseMenuContainer/PauseMenu/Continue.grab_focus()
-		else:
-			$PauseMenuContainer.show()
-			$PauseMenuContainer/PauseMenu/Continue.grab_focus()
+		$PauseMenuContainer.show()
+		$PauseMenuContainer/PauseMenu/Continue.grab_focus()
 
 func _on_size_changed():
 	var newSize = get_viewport_rect().size
-	if Globals.onMobile:
-		$TouchPauseMenuContainer.size = newSize
-		$TouchGameOverMenuContainer.size = newSize
-		$TouchControls.size = newSize
-	else:
-		$PauseMenuContainer.size = newSize
-		$GameOverMenuContainer.size = newSize
+	$PauseMenuContainer.size = newSize
+	$GameOverMenuContainer.size = newSize
 	if gameInProgress:
 		$Player.updateScreenSize()
 	for node in $BulletContainer.get_children():

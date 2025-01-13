@@ -29,10 +29,9 @@ func _process(delta):
 		fireWeapon()
 
 func fireWeapon():
-	pauseMenu = Globals.pauseMenu
 	if canFire:
-		if pauseMenu.get_node("VolumeSlider").value != 0:
-			$Weapon/ShootSoundEffect.volume_db = pauseMenu.get_node("VolumeSlider").value
+		if $"/root/Game/PauseMenuContainer/PauseMenu/VolumeSlider".value != 0:
+			$Weapon/ShootSoundEffect.volume_db = $"/root/Game/PauseMenuContainer/PauseMenu/VolumeSlider".value
 			$Weapon/ShootSoundEffect.play()
 		var b = Bullet.instantiate()
 		$"/root/Game/BulletContainer".add_child(b)
