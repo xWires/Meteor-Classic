@@ -28,7 +28,7 @@ shader = ExtResource("1_sykpf")
 shader_parameter/Shift_Hue = null
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_avxh7"]
-size = Vector2(32, 42)
+size = Vector2(6.00001, 12)
 
 [node name="Game" type="Node2D"]
 material = SubResource("ShaderMaterial_ucia6")
@@ -43,7 +43,7 @@ use_parent_material = true
 
 [node name="Player" type="CharacterBody2D" parent="."]
 use_parent_material = true
-position = Vector2(256, 112)
+position = Vector2(512, 384)
 collision_mask = 6
 script = ExtResource("1_ba3e2")
 Bullet = ExtResource("2_u0j33")
@@ -51,16 +51,14 @@ Bullet = ExtResource("2_u0j33")
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 use_parent_material = true
 rotation = 1.5708
-scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_yp4oc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(1, 7.62939e-06)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_avxh7")
 
 [node name="Weapon" type="Marker2D" parent="Player"]
-position = Vector2(22, 0)
+position = Vector2(6, 0)
 
 [node name="ShootSoundEffect" type="AudioStreamPlayer" parent="Player/Weapon"]
 stream = ExtResource("6_8pmbe")
