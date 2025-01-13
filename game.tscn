@@ -1,0 +1,485 @@
+[gd_scene load_steps=30 format=3 uid="uid://w3xuox2ftlwx"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_4r76q"]
+[ext_resource type="Script" path="res://player.gd" id="1_ba3e2"]
+[ext_resource type="Shader" path="res://shift_hsv.gdshader" id="1_sykpf"]
+[ext_resource type="Texture2D" uid="uid://c1i314m1hadl8" path="res://ship.png" id="1_yp4oc"]
+[ext_resource type="PackedScene" uid="uid://cou61cgokjxnl" path="res://asteroid.tscn" id="2_6rq1t"]
+[ext_resource type="PackedScene" uid="uid://br7eqep7t0a6s" path="res://bullet.tscn" id="2_u0j33"]
+[ext_resource type="AudioStream" uid="uid://cufvgdojwf43p" path="res://shoot.wav" id="6_8pmbe"]
+[ext_resource type="FontFile" uid="uid://cndlac808bntd" path="res://vector_battle/Vectorb.ttf" id="6_j415o"]
+[ext_resource type="Script" path="res://ScoreLabel.gd" id="7_db4os"]
+[ext_resource type="Texture2D" uid="uid://b78fcywfgtgll" path="res://continue_focused.png" id="8_0vq87"]
+[ext_resource type="Script" path="res://PauseMenu.gd" id="8_uxe00"]
+[ext_resource type="Texture2D" uid="uid://cpddte1x7d0yu" path="res://paused.png" id="9_1laju"]
+[ext_resource type="Texture2D" uid="uid://capvc3tfdc0gb" path="res://continue.png" id="10_mw0v3"]
+[ext_resource type="Texture2D" uid="uid://bntjughorfyl0" path="res://quit_focused.png" id="10_u0gkk"]
+[ext_resource type="Texture2D" uid="uid://bychx4xeeqpni" path="res://quit.png" id="13_510wa"]
+[ext_resource type="Texture2D" uid="uid://c8nct5ra0ybj2" path="res://volume.png" id="14_vnlqt"]
+[ext_resource type="Script" path="res://GameOverMenu.gd" id="16_sm7up"]
+[ext_resource type="Texture2D" uid="uid://dri0tdnjyvecn" path="res://game_over.png" id="16_tpded"]
+[ext_resource type="Texture2D" uid="uid://c08o0iq6otphp" path="res://colour.png" id="17_nw0qd"]
+[ext_resource type="Texture2D" uid="uid://bpxqobmqtroqr" path="res://restart.png" id="18_bdrod"]
+[ext_resource type="Texture2D" uid="uid://j0u7kuwv5rsg" path="res://restart_focused.png" id="19_13d1b"]
+[ext_resource type="Texture2D" uid="uid://bplnb4ynyulsn" path="res://high_score.png" id="20_dyulu"]
+[ext_resource type="Texture2D" uid="uid://k5nxovchh6ka" path="res://rotate_left.png" id="23_yswc7"]
+[ext_resource type="Texture2D" uid="uid://bpc1nxvfee244" path="res://rotate_right.png" id="24_qhuac"]
+[ext_resource type="Texture2D" uid="uid://du8vlufnpfyij" path="res://thrust.png" id="25_pn76n"]
+[ext_resource type="Texture2D" uid="uid://c60nc7tx5ogmn" path="res://fire.png" id="26_gy513"]
+[ext_resource type="Texture2D" uid="uid://bd7jt7y3ej0b7" path="res://pause.png" id="27_3tyw8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ucia6"]
+shader = ExtResource("1_sykpf")
+shader_parameter/Shift_Hue = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_avxh7"]
+size = Vector2(32, 42)
+
+[node name="Game" type="Node2D"]
+material = SubResource("ShaderMaterial_ucia6")
+script = ExtResource("1_4r76q")
+Asteroid = ExtResource("2_6rq1t")
+
+[node name="BulletContainer" type="Node2D" parent="."]
+use_parent_material = true
+
+[node name="AsteroidContainer" type="Node2D" parent="."]
+use_parent_material = true
+
+[node name="Player" type="CharacterBody2D" parent="."]
+use_parent_material = true
+position = Vector2(256, 112)
+collision_mask = 6
+script = ExtResource("1_ba3e2")
+Bullet = ExtResource("2_u0j33")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+use_parent_material = true
+rotation = 1.5708
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_yp4oc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(1, 7.62939e-06)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_avxh7")
+
+[node name="Weapon" type="Marker2D" parent="Player"]
+position = Vector2(22, 0)
+
+[node name="ShootSoundEffect" type="AudioStreamPlayer" parent="Player/Weapon"]
+stream = ExtResource("6_8pmbe")
+volume_db = 24.0
+
+[node name="WeaponCooldown" type="Timer" parent="Player"]
+wait_time = 0.5
+one_shot = true
+
+[node name="AsteroidSpawnCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="UserInterface" type="Control" parent="."]
+use_parent_material = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 85.0
+theme_override_colors/font_color = Color(0, 0.909804, 0, 1)
+theme_override_fonts/font = ExtResource("6_j415o")
+theme_override_font_sizes/font_size = 50
+text = "0"
+script = ExtResource("7_db4os")
+
+[node name="PauseMenuContainer" type="CenterContainer" parent="."]
+visible = false
+use_parent_material = true
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="PauseMenu" type="Control" parent="PauseMenuContainer"]
+process_mode = 2
+z_index = 10
+use_parent_material = true
+layout_mode = 2
+script = ExtResource("8_uxe00")
+
+[node name="Continue" type="TextureButton" parent="PauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -226.0
+offset_top = -73.0
+offset_right = 226.0
+offset_bottom = -12.0
+texture_normal = ExtResource("10_mw0v3")
+texture_focused = ExtResource("8_0vq87")
+
+[node name="Paused" type="TextureRect" parent="PauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -262.0
+offset_top = -204.0
+offset_right = 262.0
+offset_bottom = -100.0
+texture = ExtResource("9_1laju")
+expand_mode = 1
+
+[node name="Quit" type="TextureButton" parent="PauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -110.0
+offset_top = 135.0
+offset_right = 110.0
+offset_bottom = 196.0
+texture_normal = ExtResource("13_510wa")
+texture_focused = ExtResource("10_u0gkk")
+
+[node name="VolumeSlider" type="VSlider" parent="PauseMenuContainer/PauseMenu"]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 23.0
+offset_right = 392.0
+offset_bottom = 191.0
+max_value = 16.0
+value = 16.0
+
+[node name="HueSlider" type="VSlider" parent="PauseMenuContainer/PauseMenu"]
+layout_mode = 0
+offset_left = -392.0
+offset_top = 23.0
+offset_right = -376.0
+offset_bottom = 191.0
+min_value = -1.0
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="VolumeSliderLabel" type="TextureRect" parent="PauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 304.0
+offset_top = -17.0
+offset_right = 464.0
+offset_bottom = 12.0
+texture = ExtResource("14_vnlqt")
+expand_mode = 1
+
+[node name="HueSliderLabel" type="TextureRect" parent="PauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -464.0
+offset_top = -17.0
+offset_right = -304.0
+offset_bottom = 12.0
+texture = ExtResource("17_nw0qd")
+expand_mode = 1
+
+[node name="TouchPauseMenuContainer" type="CenterContainer" parent="."]
+visible = false
+use_parent_material = true
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="PauseMenu" type="Control" parent="TouchPauseMenuContainer"]
+process_mode = 2
+z_index = 10
+use_parent_material = true
+layout_mode = 2
+script = ExtResource("8_uxe00")
+
+[node name="Continue" type="TouchScreenButton" parent="TouchPauseMenuContainer/PauseMenu"]
+position = Vector2(-226, -73)
+texture_normal = ExtResource("10_mw0v3")
+texture_pressed = ExtResource("8_0vq87")
+
+[node name="Quit" type="TouchScreenButton" parent="TouchPauseMenuContainer/PauseMenu"]
+position = Vector2(-110, 135)
+texture_normal = ExtResource("13_510wa")
+texture_pressed = ExtResource("10_u0gkk")
+
+[node name="Paused" type="TextureRect" parent="TouchPauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -262.0
+offset_top = -204.0
+offset_right = 262.0
+offset_bottom = -100.0
+texture = ExtResource("9_1laju")
+expand_mode = 1
+
+[node name="VolumeSlider" type="VSlider" parent="TouchPauseMenuContainer/PauseMenu"]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 23.0
+offset_right = 392.0
+offset_bottom = 191.0
+max_value = 16.0
+value = 16.0
+
+[node name="HueSlider" type="VSlider" parent="TouchPauseMenuContainer/PauseMenu"]
+layout_mode = 0
+offset_left = -392.0
+offset_top = 23.0
+offset_right = -376.0
+offset_bottom = 191.0
+min_value = -1.0
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="VolumeSliderLabel" type="TextureRect" parent="TouchPauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 304.0
+offset_top = -17.0
+offset_right = 464.0
+offset_bottom = 12.0
+texture = ExtResource("14_vnlqt")
+expand_mode = 1
+
+[node name="HueSliderLabel" type="TextureRect" parent="TouchPauseMenuContainer/PauseMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -464.0
+offset_top = -17.0
+offset_right = -304.0
+offset_bottom = 12.0
+texture = ExtResource("17_nw0qd")
+expand_mode = 1
+
+[node name="GameOverMenuContainer" type="CenterContainer" parent="."]
+visible = false
+use_parent_material = true
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="GameOverMenu" type="Control" parent="GameOverMenuContainer"]
+process_mode = 3
+z_index = 10
+use_parent_material = true
+layout_mode = 2
+script = ExtResource("16_sm7up")
+
+[node name="GameOver" type="TextureRect" parent="GameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -389.0
+offset_top = -228.0
+offset_right = 389.0
+offset_bottom = -125.0
+texture = ExtResource("16_tpded")
+expand_mode = 1
+
+[node name="Restart" type="TextureButton" parent="GameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -197.0
+offset_top = 6.0
+offset_right = 197.0
+offset_bottom = 68.0
+texture_normal = ExtResource("18_bdrod")
+texture_focused = ExtResource("19_13d1b")
+
+[node name="Quit" type="TextureButton" parent="GameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -110.0
+offset_top = 159.0
+offset_right = 110.0
+offset_bottom = 220.0
+texture_normal = ExtResource("13_510wa")
+texture_focused = ExtResource("10_u0gkk")
+
+[node name="HighScoreText" type="TextureRect" parent="GameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 317.0
+offset_top = -69.0
+offset_right = 547.0
+offset_bottom = -44.0
+texture = ExtResource("20_dyulu")
+expand_mode = 1
+
+[node name="HighScore" type="RichTextLabel" parent="GameOverMenuContainer/GameOverMenu/HighScoreText"]
+use_parent_material = true
+layout_mode = 0
+offset_top = 34.0
+offset_right = 202.0
+offset_bottom = 74.0
+theme_override_colors/default_color = Color(0, 0.909804, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.909804, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("6_j415o")
+theme_override_font_sizes/normal_font_size = 31
+bbcode_enabled = true
+text = "[center]1234[/center]"
+
+[node name="TouchGameOverMenuContainer" type="CenterContainer" parent="."]
+visible = false
+use_parent_material = true
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="GameOverMenu" type="Control" parent="TouchGameOverMenuContainer"]
+process_mode = 3
+z_index = 10
+use_parent_material = true
+layout_mode = 2
+script = ExtResource("16_sm7up")
+
+[node name="GameOver" type="TextureRect" parent="TouchGameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = -389.0
+offset_top = -228.0
+offset_right = 389.0
+offset_bottom = -125.0
+texture = ExtResource("16_tpded")
+expand_mode = 1
+
+[node name="Restart" type="TouchScreenButton" parent="TouchGameOverMenuContainer/GameOverMenu"]
+position = Vector2(-197, 6)
+texture_normal = ExtResource("18_bdrod")
+texture_pressed = ExtResource("19_13d1b")
+
+[node name="Quit" type="TouchScreenButton" parent="TouchGameOverMenuContainer/GameOverMenu"]
+position = Vector2(-110, 159)
+texture_normal = ExtResource("13_510wa")
+texture_pressed = ExtResource("10_u0gkk")
+
+[node name="HighScoreText" type="TextureRect" parent="TouchGameOverMenuContainer/GameOverMenu"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 317.0
+offset_top = -69.0
+offset_right = 547.0
+offset_bottom = -44.0
+texture = ExtResource("20_dyulu")
+expand_mode = 1
+
+[node name="HighScore" type="RichTextLabel" parent="TouchGameOverMenuContainer/GameOverMenu/HighScoreText"]
+use_parent_material = true
+layout_mode = 0
+offset_top = 34.0
+offset_right = 202.0
+offset_bottom = 74.0
+theme_override_colors/default_color = Color(0, 0.909804, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.909804, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("6_j415o")
+theme_override_font_sizes/normal_font_size = 31
+bbcode_enabled = true
+text = "[center]1234[/center]"
+
+[node name="TouchControls" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="RotateLeft" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="TouchControls/RotateLeft"]
+position = Vector2(16, -272)
+texture_normal = ExtResource("23_yswc7")
+visibility_mode = 1
+
+[node name="RotateRight" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="TouchControls/RotateRight"]
+position = Vector2(304, -272)
+texture_normal = ExtResource("24_qhuac")
+visibility_mode = 1
+
+[node name="Thrust" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="TouchControls/Thrust"]
+position = Vector2(-520, -232)
+texture_normal = ExtResource("25_pn76n")
+visibility_mode = 1
+
+[node name="Fire" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="TouchControls/Fire"]
+position = Vector2(-272, -272)
+texture_normal = ExtResource("26_gy513")
+visibility_mode = 1
+
+[node name="Pause" type="Control" parent="TouchControls"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="TouchControls/Pause"]
+position = Vector2(-88, 32)
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("27_3tyw8")
+visibility_mode = 1
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="timeout" from="Player/WeaponCooldown" to="Player" method="_on_timer_timeout"]
+[connection signal="timeout" from="AsteroidSpawnCooldown" to="." method="_on_asteroid_spawn_cooldown_timeout"]
+[connection signal="pressed" from="PauseMenuContainer/PauseMenu/Continue" to="PauseMenuContainer/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="PauseMenuContainer/PauseMenu/Quit" to="PauseMenuContainer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="value_changed" from="PauseMenuContainer/PauseMenu/HueSlider" to="." method="_on_colour_slider_value_changed"]
+[connection signal="pressed" from="TouchPauseMenuContainer/PauseMenu/Continue" to="PauseMenuContainer/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="TouchPauseMenuContainer/PauseMenu/Quit" to="PauseMenuContainer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="value_changed" from="TouchPauseMenuContainer/PauseMenu/HueSlider" to="." method="_on_colour_slider_value_changed"]
+[connection signal="pressed" from="GameOverMenuContainer/GameOverMenu/Restart" to="GameOverMenuContainer/GameOverMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="GameOverMenuContainer/GameOverMenu/Quit" to="GameOverMenuContainer/GameOverMenu" method="_on_quit_pressed"]
+[connection signal="pressed" from="TouchGameOverMenuContainer/GameOverMenu/Restart" to="GameOverMenuContainer/GameOverMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="TouchGameOverMenuContainer/GameOverMenu/Quit" to="GameOverMenuContainer/GameOverMenu" method="_on_quit_pressed"]
+[connection signal="pressed" from="TouchControls/RotateLeft/TouchScreenButton" to="Player" method="_on_rotate_left_pressed"]
+[connection signal="released" from="TouchControls/RotateLeft/TouchScreenButton" to="Player" method="_on_rotate_left_released"]
+[connection signal="pressed" from="TouchControls/RotateRight/TouchScreenButton" to="Player" method="_on_rotate_right_pressed"]
+[connection signal="released" from="TouchControls/RotateRight/TouchScreenButton" to="Player" method="_on_rotate_right_released"]
+[connection signal="pressed" from="TouchControls/Thrust/TouchScreenButton" to="Player" method="_on_thrust_pressed"]
+[connection signal="released" from="TouchControls/Thrust/TouchScreenButton" to="Player" method="_on_thrust_released"]
+[connection signal="pressed" from="TouchControls/Fire/TouchScreenButton" to="Player" method="_on_fire_pressed"]
+[connection signal="released" from="TouchControls/Fire/TouchScreenButton" to="Player" method="_on_fire_released"]
+[connection signal="pressed" from="TouchControls/Pause/TouchScreenButton" to="." method="_on_pause_pressed"]
