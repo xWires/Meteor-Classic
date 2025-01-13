@@ -22,8 +22,11 @@ Globals="*res://Globals.gd"
 
 [display]
 
+window/size/viewport_width=1024
+window/size/viewport_height=768
 window/stretch/aspect="ignore"
 window/stretch/scale_mode="integer"
+window/handheld/orientation=1
 
 [dotnet]
 
