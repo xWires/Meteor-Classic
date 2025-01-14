@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="23.420385mm"
+   height="22.075809mm"
+   viewBox="0 0 23.420385 22.075809"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="asteroid50.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0378437"
+     inkscape:cx="43.35913"
+     inkscape:cy="41.913826"
+     inkscape:window-width="3440"
+     inkscape:window-height="1374"
+     inkscape:window-x="1920"
+     inkscape:window-y="29"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-93.289807,-137.46209)">
+    <g
+       id="g1"
+       transform="matrix(0.5,0,0,0.5,59.026265,105.44751)">
+      <path
+         style="fill:none;stroke:#ffffff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 74.91181,64.707487 13.001716,12.23691 14.276404,-12.74678 12.74678,8.92275 -5.86352,8.41287 6.11845,7.64807 -17.590565,18.100433 -16.57081,0.76481 -12.37089,-8.667813 v -23.19915 z"
+         id="path2" />
+    </g>
+  </g>
+</svg>

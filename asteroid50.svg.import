@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyr61ov6hnfhq"
-path="res://.godot/imported/asteroid50.png-6cba9cc15c8b80bc85dc8bbcdcd62926.ctex"
+uid="uid://ugasuu8pl8l1"
+path="res://.godot/imported/asteroid50.svg-414cc9512f6dfe0a1e24ba4c4d695afb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asteroid50.png"
-dest_files=["res://.godot/imported/asteroid50.png-6cba9cc15c8b80bc85dc8bbcdcd62926.ctex"]
+source_file="res://asteroid50.svg"
+dest_files=["res://.godot/imported/asteroid50.svg-414cc9512f6dfe0a1e24ba4c4d695afb.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

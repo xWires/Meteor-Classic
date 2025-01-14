@@ -1,11 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cou61cgokjxnl"]
+[gd_scene load_steps=4 format=3 uid="uid://cou61cgokjxnl"]
 
-[ext_resource type="Texture2D" uid="uid://dd3j5ddgeoq3r" path="res://asteroid.png" id="1_0l7h6"]
 [ext_resource type="Script" path="res://asteroid.gd" id="1_h8t2a"]
 [ext_resource type="PackedScene" uid="uid://bo388dgs0xvcn" path="res://asteroid50.tscn" id="2_8smja"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_va5b3"]
-radius = 56.5685
+[ext_resource type="Texture2D" uid="uid://cjof4d11sb1nt" path="res://asteroid.svg" id="3_mfx83"]
 
 [node name="AsteroidScene" type="Node2D"]
 use_parent_material = true
@@ -19,10 +16,11 @@ smallAsteroid = ExtResource("2_8smja")
 
 [node name="Sprite2D" type="Sprite2D" parent="Asteroid"]
 use_parent_material = true
-texture = ExtResource("1_0l7h6")
+scale = Vector2(0.559999, 0.559999)
+texture = ExtResource("3_mfx83")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid"]
-shape = SubResource("CircleShape2D_va5b3")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroid"]
+polygon = PackedVector2Array(22, -46, 49, -27, 37, -10, 49, 6, 12, 45, -23, 46, -49, 28, -49, -21, -36, -45, -9, -20)
 
 [connection signal="area_entered" from="Asteroid" to="Asteroid" method="_on_area_entered"]
 [connection signal="body_entered" from="Asteroid" to="Asteroid" method="_on_body_entered"]
