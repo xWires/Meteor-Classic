@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://w3xuox2ftlwx"]
+[gd_scene load_steps=24 format=3 uid="uid://w3xuox2ftlwx"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_4r76q"]
 [ext_resource type="Script" path="res://player.gd" id="1_ba3e2"]
@@ -27,9 +27,6 @@
 shader = ExtResource("1_sykpf")
 shader_parameter/Shift_Hue = null
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_avxh7"]
-size = Vector2(21.9999, 32.0001)
-
 [node name="Game" type="Node2D"]
 material = SubResource("ShaderMaterial_ucia6")
 script = ExtResource("1_4r76q")
@@ -53,9 +50,8 @@ use_parent_material = true
 rotation = 1.5708
 texture = ExtResource("1_yp4oc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-rotation = 1.5708
-shape = SubResource("RectangleShape2D_avxh7")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+polygon = PackedVector2Array(-16, -11, 16, 0, -16, 11)
 
 [node name="Weapon" type="Marker2D" parent="Player"]
 position = Vector2(17, 0)
