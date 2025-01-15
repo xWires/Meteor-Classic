@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Meteor"
+config/name="Meteor Classic"
 run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/image="res://splash.png"
