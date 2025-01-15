@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://w3xuox2ftlwx"]
+[gd_scene load_steps=26 format=3 uid="uid://w3xuox2ftlwx"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_4r76q"]
 [ext_resource type="Script" path="res://player.gd" id="1_ba3e2"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://cufvgdojwf43p" path="res://shoot.wav" id="6_8pmbe"]
 [ext_resource type="FontFile" uid="uid://cndlac808bntd" path="res://vector_battle/Vectorb.ttf" id="6_j415o"]
 [ext_resource type="Script" path="res://ScoreLabel.gd" id="7_db4os"]
+[ext_resource type="Texture2D" uid="uid://dh8ylyw4s1njk" path="res://ship_moving.png" id="7_verb8"]
 [ext_resource type="Texture2D" uid="uid://b78fcywfgtgll" path="res://continue_focused.png" id="8_0vq87"]
 [ext_resource type="Script" path="res://PauseMenu.gd" id="8_uxe00"]
 [ext_resource type="Texture2D" uid="uid://cpddte1x7d0yu" path="res://paused.png" id="9_1laju"]
@@ -26,6 +27,20 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ucia6"]
 shader = ExtResource("1_sykpf")
 shader_parameter/Shift_Hue = null
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_crl7r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yp4oc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_verb8")
+}],
+"loop": true,
+"name": &"move",
+"speed": 15.0
+}]
 
 [node name="Game" type="Node2D"]
 material = SubResource("ShaderMaterial_ucia6")
@@ -45,16 +60,16 @@ collision_mask = 6
 script = ExtResource("1_ba3e2")
 Bullet = ExtResource("2_u0j33")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-use_parent_material = true
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 rotation = 1.5708
-texture = ExtResource("1_yp4oc")
+sprite_frames = SubResource("SpriteFrames_crl7r")
+animation = &"move"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
-polygon = PackedVector2Array(-16, -11, 16, 0, -16, 11)
+polygon = PackedVector2Array(17, 0, -15, 10, -15, -10)
 
 [node name="Weapon" type="Marker2D" parent="Player"]
-position = Vector2(17, 0)
+position = Vector2(18, 0)
 
 [node name="ShootSoundEffect" type="AudioStreamPlayer" parent="Player/Weapon"]
 stream = ExtResource("6_8pmbe")

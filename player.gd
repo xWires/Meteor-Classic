@@ -21,12 +21,20 @@ var rotatingRight:bool = false
 var thrusting:bool = false
 var firing:bool = false
 
+@onready var _animated_sprite = $AnimatedSprite2D
+
 func _ready():
 	screen_size = get_viewport_rect().size
 
 func _process(delta):
 	if Input.is_action_pressed("fire") or firing:
 		fireWeapon()
+		
+	if Input.is_action_pressed("up"):
+		_animated_sprite.play("move")
+	else:
+		_animated_sprite.stop()
+
 
 func fireWeapon():
 	if canFire:
